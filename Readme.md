@@ -1,7 +1,7 @@
 # Личный проект «Менеджер задач» [![Build status][travis-image]][travis-url]
 
 * Студент: [Halyna Karpan](https://up.htmlacademy.ru/ecmascript/9/user/895235).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий_Мирошниченко](https://up.htmlacademy.ru/javascript/17/user/591417).
 
 ---
 
