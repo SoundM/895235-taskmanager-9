@@ -2,8 +2,8 @@
 
 (function () {
   const CARD_COUNT = 3;
-  const containerForMenu = document.querySelector(`.main__control`);
   const containerForMain = document.querySelector(`.main`);
+  const containerForMenu = containerForMain.querySelector(`.main__control`);
 
   const renderTemplate = (container, template, place) => {
     container.insertAdjacentHTML(place, template);
@@ -37,8 +37,7 @@
               <label for="control__statistic" class="control__label"
                 >STATISTICS</label
               >
-            </section>
-    `;
+            </section>`;
   };
 
   const createTemplateSearch = () => {
@@ -50,8 +49,7 @@
                 placeholder="START TYPING — SEARCH BY WORD, #HASHTAG OR DATE"
               />
               <label class="visually-hidden" for="search__input">Search</label>
-            </section>
-    `;
+            </section>`;
   };
 
   const createTemplateFilter = ()=> {
@@ -122,22 +120,22 @@
               <label for="filter__archive" class="filter__label"
                 >Archive <span class="filter__archive-count">115</span></label
               >
-            </section>
-    `;
+            </section>`;
   };
 
   const createTemplateBoardContainer = () => {
     return `<section class="board container">
-              <div class="board__filter-list">
-                <a href="#" class="board__filter">SORT BY DEFAULT</a>
-                <a href="#" class="board__filter">SORT BY DATE up</a>
-                <a href="#" class="board__filter">SORT BY DATE down</a>
-              </div>
-            
               <div class="board__tasks">
               </div>
-            </section>
-    `;
+            </section>`;
+  };
+
+  const createTemplateBoardSorting = () => {
+    return `<div class="board__filter-list">
+              <a href="#" class="board__filter">SORT BY DEFAULT</a>
+              <a href="#" class="board__filter">SORT BY DATE up</a>
+              <a href="#" class="board__filter">SORT BY DATE down</a>
+            </div>`;
   };
 
   const createTaskCard = () => {
@@ -205,13 +203,11 @@
                   </div>
                 </div>
               </div>
-            </article>
-    `;
+            </article>`;
   };
 
-  const createTemplateButton = () => {
-    return `<button class="load-more" type="button">load more</button>
-    `;
+  const createLoadMoreButtonTemplate = () => {
+    return `<button class="load-more" type="button">load more</button>`;
   };
 
   renderTemplate(containerForMenu, createTemplateMenu(), `beforeend`);
@@ -219,11 +215,13 @@
   renderTemplate(containerForMain, createTemplateFilter(), `beforeend`);
   renderTemplate(containerForMain, createTemplateBoardContainer(), `beforeend`);
 
-  const board = document.querySelector(`.board__tasks`);
-  for (let i = 0; i < CARD_COUNT; i++) {
-    renderTemplate(board, createTaskCard(), `beforeend`);
-  }
+  const board = containerForMain.querySelector(`.board`);
+  const boardContainer = containerForMain.querySelector(`.board__tasks`);
 
-  renderTemplate(document.querySelector(`.board`), createTemplateButton(), `beforeend`);
+  renderTemplate(board, createTemplateBoardSorting(), `afterbegin`);
+
+  new Array(CARD_COUNT).fill(``).forEach(() => renderTemplate(boardContainer, createTaskCard(), `beforeend`));
+
+  renderTemplate(board, createLoadMoreButtonTemplate(), `beforeend`);
 
 })();
