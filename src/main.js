@@ -1,16 +1,14 @@
 'use strict';
 
-(function () {
-  const CARD_COUNT = 3;
-  const containerForMain = document.querySelector(`.main`);
-  const containerForMenu = containerForMain.querySelector(`.main__control`);
+const CARD_COUNT = 3;
+const containerForMain = document.querySelector(`.main`);
+const containerForMenu = containerForMain.querySelector(`.main__control`);
 
-  const renderTemplate = (container, template, place) => {
-    container.insertAdjacentHTML(place, template);
-  };
+const renderTemplate = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
 
-  const createTemplateMenu = () => {
-    return `<section class="control__btn-wrap">
+const createTemplateMenu = () => `<section class="control__btn-wrap">
               <input
                 type="radio"
                 name="control"
@@ -38,10 +36,9 @@
                 >STATISTICS</label
               >
             </section>`;
-  };
 
-  const createTemplateSearch = () => {
-    return `<section class="main__search search container">
+
+const createTemplateSearch = () => `<section class="main__search search container">
               <input
                 type="text"
                 id="search__input"
@@ -50,10 +47,9 @@
               />
               <label class="visually-hidden" for="search__input">Search</label>
             </section>`;
-  };
 
-  const createTemplateFilter = ()=> {
-    return `<section class="main__filter filter container">
+
+const createTemplateFilter = () => `<section class="main__filter filter container">
               <input
                 type="radio"
                 id="filter__all"
@@ -121,25 +117,21 @@
                 >Archive <span class="filter__archive-count">115</span></label
               >
             </section>`;
-  };
 
-  const createTemplateBoardContainer = () => {
-    return `<section class="board container">
+
+const createTemplateBoardContainer = () => `<section class="board container">
               <div class="board__tasks">
               </div>
             </section>`;
-  };
 
-  const createTemplateBoardSorting = () => {
-    return `<div class="board__filter-list">
+const createTemplateBoardSorting = () => `<div class="board__filter-list">
               <a href="#" class="board__filter">SORT BY DEFAULT</a>
               <a href="#" class="board__filter">SORT BY DATE up</a>
               <a href="#" class="board__filter">SORT BY DATE down</a>
             </div>`;
-  };
 
-  const createTaskCard = () => {
-    return `<article class="card card--black">
+
+const createTaskCard = () => `<article class="card card--black">
               <div class="card__form">
                 <div class="card__inner">
                   <div class="card__control">
@@ -204,24 +196,20 @@
                 </div>
               </div>
             </article>`;
-  };
 
-  const createLoadMoreButtonTemplate = () => {
-    return `<button class="load-more" type="button">load more</button>`;
-  };
 
-  renderTemplate(containerForMenu, createTemplateMenu(), `beforeend`);
-  renderTemplate(containerForMain, createTemplateSearch(), `beforeend`);
-  renderTemplate(containerForMain, createTemplateFilter(), `beforeend`);
-  renderTemplate(containerForMain, createTemplateBoardContainer(), `beforeend`);
+const createLoadMoreButtonTemplate = () => `<button class="load-more" type="button">load more</button>`;
 
-  const board = containerForMain.querySelector(`.board`);
-  const boardContainer = containerForMain.querySelector(`.board__tasks`);
+renderTemplate(containerForMenu, createTemplateMenu(), `beforeend`);
+renderTemplate(containerForMain, createTemplateSearch(), `beforeend`);
+renderTemplate(containerForMain, createTemplateFilter(), `beforeend`);
+renderTemplate(containerForMain, createTemplateBoardContainer(), `beforeend`);
 
-  renderTemplate(board, createTemplateBoardSorting(), `afterbegin`);
+const board = containerForMain.querySelector(`.board`);
+const boardContainer = containerForMain.querySelector(`.board__tasks`);
 
-  new Array(CARD_COUNT).fill(``).forEach(() => renderTemplate(boardContainer, createTaskCard(), `beforeend`));
+renderTemplate(board, createTemplateBoardSorting(), `afterbegin`);
 
-  renderTemplate(board, createLoadMoreButtonTemplate(), `beforeend`);
+new Array(CARD_COUNT).fill(``).forEach(() => renderTemplate(boardContainer, createTaskCard(), `beforeend`));
 
-})();
+renderTemplate(board, createLoadMoreButtonTemplate(), `beforeend`);
