@@ -3,12 +3,14 @@
 const CARD_COUNT = 3;
 const containerForMain = document.querySelector(`.main`);
 const containerForMenu = containerForMain.querySelector(`.main__control`);
+const board = containerForMain.querySelector(`.board`);
+const boardContainer = containerForMain.querySelector(`.board__tasks`);
 
-const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
-const createTemplateMenu = () => `<section class="control__btn-wrap">
+const elements = [
+  {
+    container: containerForMenu,
+    template: () => `<section class="control__btn-wrap">
               <input
                 type="radio"
                 name="control"
@@ -35,10 +37,14 @@ const createTemplateMenu = () => `<section class="control__btn-wrap">
               <label for="control__statistic" class="control__label"
                 >STATISTICS</label
               >
-            </section>`;
+            </section>`,
+    place: `beforeEnd`,
+    amount: 1
+  },
 
-
-const createTemplateSearch = () => `<section class="main__search search container">
+  {
+    container: containerForMain,
+    template: () => `<section class="main__search search container">
               <input
                 type="text"
                 id="search__input"
@@ -46,10 +52,14 @@ const createTemplateSearch = () => `<section class="main__search search containe
                 placeholder="START TYPING — SEARCH BY WORD, #HASHTAG OR DATE"
               />
               <label class="visually-hidden" for="search__input">Search</label>
-            </section>`;
+            </section>`,
+    place: `beforeEnd`,
+    amount: 1
+  },
 
-
-const createTemplateFilter = () => `<section class="main__filter filter container">
+  {
+    container: containerForMain,
+    template: () => `<section class="main__filter filter container">
               <input
                 type="radio"
                 id="filter__all"
@@ -116,22 +126,42 @@ const createTemplateFilter = () => `<section class="main__filter filter containe
               <label for="filter__archive" class="filter__label"
                 >Archive <span class="filter__archive-count">115</span></label
               >
-            </section>`;
+            </section>`,
+    place: `beforeEnd`,
+    amount: 1
+  },
 
-
-const createTemplateBoardContainer = () => `<section class="board container">
+  {
+    container: containerForMain,
+    template: () => `<section class="board container">
               <div class="board__tasks">
               </div>
-            </section>`;
+            </section>`,
+    place: `beforeEnd`,
+    amount: 1,
+  },
 
-const createTemplateBoardSorting = () => `<div class="board__filter-list">
+  {
+    container: containerForMain, // надо board
+    template: () => `<div class="board__filter-list">
               <a href="#" class="board__filter">SORT BY DEFAULT</a>
               <a href="#" class="board__filter">SORT BY DATE up</a>
               <a href="#" class="board__filter">SORT BY DATE down</a>
-            </div>`;
+            </div>`,
+    place: `afterBegin`,
+    amount: 1
+  },
 
+  {
+    container: containerForMain, // надо boardContainer
+    template: () => `<button class="load-more" type="button">load more</button>`,
+    place: `beforeEnd`,
+    amount: 1
+  },
 
-const createTaskCard = () => `<article class="card card--black">
+  {
+    container: containerForMain, // надо boardContainer
+    template: () => `<article class="card card--black">
               <div class="card__form">
                 <div class="card__inner">
                   <div class="card__control">
@@ -195,21 +225,18 @@ const createTaskCard = () => `<article class="card card--black">
                   </div>
                 </div>
               </div>
-            </article>`;
+            </article>`,
+    place: `beforeEnd`,
+    amount: CARD_COUNT
+  }
+];
 
+const renderAllComponents = () => {
+  elements.forEach(function (it) {
+    for (let i = 0; i < it.amount; i++) {
+      it.container.insertAdjacentHTML(`beforeEnd`, it.template());
+    }
+  });
+};
+renderAllComponents();
 
-const createLoadMoreButtonTemplate = () => `<button class="load-more" type="button">load more</button>`;
-
-renderTemplate(containerForMenu, createTemplateMenu(), `beforeend`);
-renderTemplate(containerForMain, createTemplateSearch(), `beforeend`);
-renderTemplate(containerForMain, createTemplateFilter(), `beforeend`);
-renderTemplate(containerForMain, createTemplateBoardContainer(), `beforeend`);
-
-const board = containerForMain.querySelector(`.board`);
-const boardContainer = containerForMain.querySelector(`.board__tasks`);
-
-renderTemplate(board, createTemplateBoardSorting(), `afterbegin`);
-
-new Array(CARD_COUNT).fill(``).forEach(() => renderTemplate(boardContainer, createTaskCard(), `beforeend`));
-
-renderTemplate(board, createLoadMoreButtonTemplate(), `beforeend`);
