@@ -1,5 +1,3 @@
-'use strict';
-
 const CARD_COUNT = 3;
 const containerForMain = `.main`;
 const containerForMenu = `.main__control`;
