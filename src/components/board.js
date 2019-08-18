@@ -4,7 +4,3 @@ export const createTemplateBoardFilter = () => `<div class="board__filter-list">
                 <a href="#" class="board__filter">SORT BY DATE down</a>
               </div>`;
 
-export const createTemplateBoardContainer = () => `<section class="board container">
-              <div class="board__tasks">
-              </div>
-            </section>`;

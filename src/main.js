@@ -1,7 +1,8 @@
 import {createTemplateMenu} from './components/menu.js';
 import {createTemplateSearch} from './components/search.js';
 import {createTemplateFilter} from './components/filter.js';
-import {createTemplateBoardContainer, createTemplateBoardFilter} from './components/board.js';
+import {createTemplateBoardFilter} from './components/board.js';
+import {createTemplateBoardContainer} from './components/board-container.js';
 import {createTaskCard} from './components/card.js';
 import {createTemplateButton} from './components/button.js';
 
