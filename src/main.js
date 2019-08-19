@@ -3,6 +3,7 @@ import {createTemplateSearch} from './components/search.js';
 import {createTemplateFilter} from './components/filter.js';
 import {createTemplateBoardFilter} from './components/board.js';
 import {createTemplateBoardContainer} from './components/board-container.js';
+import {createTemplateCardEdit} from './components/card-edit.js';
 import {createTemplateCard} from './components/card.js';
 import {createTemplateButton} from './components/button.js';
 import {getTask} from '../src/data.js';
@@ -54,6 +55,13 @@ const elements = [
   {
     container: board,
     template: createTemplateButton,
+    place: `beforeEnd`,
+    amount: 1,
+  },
+
+  {
+    container: boardContainer,
+    template: createTemplateCardEdit,
     place: `beforeEnd`,
     amount: 1,
   },
