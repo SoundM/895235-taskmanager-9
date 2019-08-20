@@ -30,6 +30,7 @@ export const createTemplateCard = ({description, dueDate, repeatingDays, tags, c
           <div class="card__date-deadline">
             <p class="card__input-deadline-wrap">
               <span class="card__date">${new Date(dueDate).toDateString()}</span>
+              <span class="card__time">11:15 PM</span>
             </p>
           </div>
         </div>

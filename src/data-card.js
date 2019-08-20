@@ -1,12 +1,14 @@
-export const getTask = () => ({
+export const getCard = () => ({
   description: [
     `Изучить теорию`,
     `Сделать домашку`,
     `Пройти интенсив на соточку`,
-    `создать резюме`,
-    `не забыть сходить на работу`,
+    `Написать резюме`,
+    `English урок`,
   ][Math.floor(Math.random() * 5)],
+
   dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+
   tags: new Set([
     `homework`,
     `theory`,
@@ -14,6 +16,7 @@ export const getTask = () => ({
     `intensive`,
     `keks`
   ]),
+
   repeatingDays: {
     'mo': false,
     'tu': false,
@@ -23,6 +26,7 @@ export const getTask = () => ({
     'sa': false,
     'su': false,
   },
+
   color: [
     `black`,
     `yellow`,
@@ -30,6 +34,8 @@ export const getTask = () => ({
     `green`,
     `pink`,
   ][Math.floor(Math.random() * 5)],
+
   isFavorite: Boolean(Math.round(Math.random())),
+
   isArchive: Boolean(Math.round(Math.random())),
 });

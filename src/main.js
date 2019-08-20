@@ -6,15 +6,17 @@ import {createTemplateBoardContainer} from './components/board-container.js';
 import {createTemplateCardEdit} from './components/card-edit.js';
 import {createTemplateCard} from './components/card.js';
 import {createTemplateButton} from './components/button.js';
-import {getTask} from '../src/data.js';
+import {getCard} from './data-card.js';
+import {getFilter} from '../src/data-filter.js';
 
-const CARD_COUNT = 5;
-const EXTRA_CARD_COUNT = 8;
+const CardsCount = {
+  CARDS_ACTIVE: 5,
+  ADD_BY_CLICK: 8,
+};
 const containerForMain = `.main`;
 const containerForMenu = `.main__control`;
 const board = `.board`;
 const boardContainer = `.board__tasks`;
-
 
 const elements = [
   {
@@ -71,7 +73,7 @@ const renderAllComponents = () => {
   elements.forEach((it) => {
     const currentContainer = document.querySelector(it.container);
     for (let i = 0; i < it.amount; i++) {
-      currentContainer.insertAdjacentHTML(it.place, it.template());
+      currentContainer.insertAdjacentHTML(it.place, it.template(getFilter()));
     }
   });
 };
@@ -81,7 +83,7 @@ const card = {
   container: boardContainer,
   template: createTemplateCard,
   place: `beforeEnd`,
-  task: getTask,
+  task: getCard,
 };
 
 const renderCards = (amount) => {
@@ -91,10 +93,12 @@ const renderCards = (amount) => {
   }
 };
 
-renderCards(CARD_COUNT);
+renderCards(CardsCount.CARDS_ACTIVE);
 
 const buttonLoadMore = document.querySelector(`.load-more`);
 
+
 buttonLoadMore.addEventListener(`click`, () => {
-  renderCards(EXTRA_CARD_COUNT);
+  renderCards(CardsCount.ADD_BY_CLICK);
 });
+
