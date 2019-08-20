@@ -7,7 +7,7 @@ export const getCard = () => ({
     `English урок`,
   ][Math.floor(Math.random() * 5)],
 
-  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+  dueDate: Date.now() + (Math.floor(Math.random() * 15) - 7) * 24 * 60 * 60 * 1000,
 
   tags: new Set([
     `homework`,
@@ -15,12 +15,12 @@ export const getCard = () => ({
     `practice`,
     `intensive`,
     `keks`
-  ]),
+  ].sort(() => 0.5 - Math.random()).slice(0, Math.random() * 3)),
 
   repeatingDays: {
     'mo': false,
     'tu': false,
-    'we': Boolean(Math.round(Math.random())),
+    'we': Boolean(Math.round(Math.random()) * 0.5),
     'th': false,
     'fr': false,
     'sa': false,
