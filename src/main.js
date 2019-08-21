@@ -14,13 +14,13 @@ const CardsCount = {
   ADD_BY_CLICK: 8,
   All: 23,
 };
-let cardCount = CardsCount.CARDS_ACTIVE;
+
 let cardBalance = CardsCount.All - CardsCount.CARDS_ACTIVE;
 const containerForMain = `.main`;
 const containerForMenu = `.main__control`;
 const board = `.board`;
 const boardContainer = `.board__tasks`;
-const tasks = new Array(cardCount).fill(``).map(getCard);
+const tasks = new Array(CardsCount.All).fill(``).map(getCard);
 
 const elements = [
   {
