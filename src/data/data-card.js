@@ -1,41 +1,42 @@
+import {getRandomBoolean, getRandomItemFrom, getRandomTags} from './utils';
+
+const description = [
+  `Изучить теорию`,
+  `Сделать домашку`,
+  `Пройти интенсив на соточку`,
+  `Отослать резюме`,
+  `English урок`,
+];
+const tags = [
+  `homework`,
+  `theory`,
+  `practice`,
+  `intensive`,
+  `keks`
+];
+
+const colors = [
+  `black`,
+  `yellow`,
+  `blue`,
+  `green`,
+  `pink`,
+];
+
 export const getCard = () => ({
-  description: [
-    `Изучить теорию`,
-    `Сделать домашку`,
-    `Пройти интенсив на соточку`,
-    `Написать резюме`,
-    `English урок`,
-  ][Math.floor(Math.random() * 5)],
-
+  description: getRandomItemFrom(description),
   dueDate: Date.now() + (Math.floor(Math.random() * 15) - 7) * 24 * 60 * 60 * 1000,
-
-  tags: new Set([
-    `homework`,
-    `theory`,
-    `practice`,
-    `intensive`,
-    `keks`
-  ].sort(() => 0.5 - Math.random()).slice(0, Math.random() * 3)),
-
+  tags: new Set(getRandomTags(tags)),
   repeatingDays: {
-    'mo': false,
-    'tu': false,
-    'we': Boolean(Math.round(Math.random()) * 0.5),
-    'th': false,
-    'fr': false,
-    'sa': false,
-    'su': false,
+    'mo': getRandomBoolean(),
+    'tu': getRandomBoolean(),
+    'we': getRandomBoolean(),
+    'th': getRandomBoolean(),
+    'fr': getRandomBoolean(),
+    'sa': getRandomBoolean(),
+    'su': getRandomBoolean(),
   },
-
-  color: [
-    `black`,
-    `yellow`,
-    `blue`,
-    `green`,
-    `pink`,
-  ][Math.floor(Math.random() * 5)],
-
-  isFavorite: Boolean(Math.round(Math.random())),
-
-  isArchive: Boolean(Math.round(Math.random())),
+  color: getRandomItemFrom(colors),
+  isFavorite: getRandomBoolean(),
+  isArchive: getRandomBoolean(),
 });
