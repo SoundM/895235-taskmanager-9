@@ -1,4 +1,4 @@
-import {getRandomBoolean, getRandomItemFrom, getRandomTags} from './utils';
+import {getRandomBoolean, getRandomItemFrom, getRandomTags} from './data-utils';
 
 const description = [
   `Изучить теорию`,

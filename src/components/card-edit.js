@@ -1,9 +1,25 @@
-const data = {
-  days: [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`],
-  tags: [`repeat`, `cinema`, `entertaiment`],
-  color: [`black`, `yellow`, `blue`, `green`, `pink`],
-};
-export const createTemplateCardEdit = () => `<article class="card card--edit card--yellow card--repeat">
+import {createElement} from './utils';
+
+export class CardEdit {
+  constructor({description, dueDate, tags, color, repeatingDays}) {
+    this._description = description;
+    this._dueDate = new Date(dueDate);
+    this._tags = tags;
+    this._color = color;
+    this._element = null;
+    this._repeatingDays = repeatingDays;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  getTemplate() {
+    return `<article class="card card--edit card--${this._color} ${Object.values(this._repeatingDays).some((it) => it === true) ? `card--repeat` : `` }">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -30,7 +46,7 @@ export const createTemplateCardEdit = () => `<article class="card card--edit car
                       class="card__text"
                       placeholder="Start typing your text here..."
                       name="text"
-                    >Here is a card with filled data</textarea>
+                    >${this._description}</textarea>
                   </label>
                 </div>
 
@@ -48,7 +64,7 @@ export const createTemplateCardEdit = () => `<article class="card card--edit car
                             type="text"
                             placeholder=""
                             name="date"
-                            value="23 September 11:15 PM"
+                            value="${this._dueDate.toDateString()} ${this._dueDate.getHours()}:${this._dueDate.getMinutes()}"
                           />
                         </label>
                       </fieldset>
@@ -59,31 +75,31 @@ export const createTemplateCardEdit = () => `<article class="card card--edit car
 
                       <fieldset class="card__repeat-days">
                         <div class="card__repeat-days-inner">
-                          ${Array.from(data.days).map((it) => `
+                          ${Array.from(Object.keys(this._repeatingDays)).map((day) => `
                           <input
                             class="visually-hidden card__repeat-day-input"
                             type="checkbox"
-                            id="repeat-${it}-4"
+                            id="repeat-${day}-4"
                             name="repeat"
-                            value="${it}"
+                            value="${day}"
                           />
-                          <label class="card__repeat-day" for="repeat-${it}-4">${it}</label>`).join(``)}
+                          <label class="card__repeat-day" for="repeat-${day}-4">${day}</label>`).join(``)}
                          </div>
                       </fieldset>
                     </div>
 
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                        ${Array.from(data.tags).map((it) => `
+                        ${Array.from(this._tags).map((tag) => `
                         <span class="card__hashtag-inner">
                           <input
                             type="hidden"
                             name="hashtag"
-                            value="${it}"
+                            value="${tag}"
                             class="card__hashtag-hidden-input"
                           />
                           <p class="card__hashtag-name">
-                            #${it}
+                            #${tag}
                           </p>
                           <button type="button" class="card__hashtag-delete">
                             delete
@@ -105,7 +121,7 @@ export const createTemplateCardEdit = () => `<article class="card card--edit car
                   <div class="card__colors-inner">
                     <h3 class="card__colors-title">Color</h3>
                     <div class="card__colors-wrap">
-                      ${Array.from(data.color).map((it) => `
+                      ${Array.from(this._color).map((it) => `
                       <input
                         type="radio"
                         id="color-${it}-4"
@@ -129,3 +145,5 @@ export const createTemplateCardEdit = () => `<article class="card card--edit car
               </div>
             </form>
           </article>`;
+  }
+}

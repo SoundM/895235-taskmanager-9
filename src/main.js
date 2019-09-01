@@ -1,11 +1,12 @@
-import {createTemplateMenu} from './components/menu.js';
-import {createTemplateSearch} from './components/search.js';
-import {createTemplateFilter} from './components/filter.js';
-import {createTemplateBoardFilter} from './components/board.js';
-import {createTemplateBoardContainer} from './components/board-container.js';
-import {createTemplateCardEdit} from './components/card-edit.js';
-import {createTemplateCard} from './components/card.js';
-import {createTemplateButton} from './components/button.js';
+import {Menu} from './components/menu.js';
+import {Search} from './components/search.js';
+import {Filters} from './components/filter.js';
+import {BoardFilter} from './components/board.js';
+import {BoardContainer} from './components/board-container.js';
+import {render, Position} from './components/utils.js';
+import {CardEdit} from './components/card-edit.js';
+import {Card} from './components/card.js';
+import {Button} from './components/button.js';
 import {getCard} from './data/data-card.js';
 import {getFilters} from './data/data-filter.js';
 
@@ -14,99 +15,102 @@ const CardsCount = {
   ADD_BY_CLICK: 8,
   All: 23,
 };
-
 let cardBalance = CardsCount.All - CardsCount.CARDS_ACTIVE;
+
 const containerForMain = `.main`;
 const containerForMenu = `.main__control`;
 const board = `.board`;
-const boardContainer = `.board__tasks`;
-const tasks = new Array(CardsCount.All).fill(``).map(getCard);
+const cards = new Array(CardsCount.All).fill(``).map(getCard);
 
 const elements = [
   {
     container: containerForMenu,
-    template: createTemplateMenu,
+    element: new Menu(),
     place: `beforeEnd`,
-    amount: 1,
   },
 
   {
     container: containerForMain,
-    template: createTemplateSearch,
+    element: new Search(),
     place: `beforeEnd`,
-    amount: 1,
   },
 
   {
     container: containerForMain,
-    template: createTemplateFilter,
+    element: new Filters(getFilters(cards)),
     place: `beforeEnd`,
-    amount: 1,
   },
 
   {
     container: containerForMain,
-    template: createTemplateBoardContainer,
+    element: new BoardContainer(),
     place: `beforeEnd`,
-    amount: 1,
   },
 
   {
     container: board,
-    template: createTemplateBoardFilter,
+    element: new BoardFilter(),
     place: `afterBegin`,
-    amount: 1,
   },
 
   {
     container: board,
-    template: createTemplateButton,
+    element: new Button(),
     place: `beforeEnd`,
-    amount: 1,
-  },
-
-  {
-    container: boardContainer,
-    template: createTemplateCardEdit,
-    place: `beforeEnd`,
-    amount: 1,
   },
 ];
 
 const renderAllComponents = () => {
   elements.forEach((it) => {
     const currentContainer = document.querySelector(it.container);
-    for (let i = 0; i < it.amount; i++) {
-      currentContainer.insertAdjacentHTML(it.place, it.template(getFilters(tasks)));
-    }
+    render(currentContainer, it.element.getElement(), it.place);
   });
 };
 renderAllComponents();
 
-const card = {
-  container: boardContainer,
-  template: createTemplateCard,
-  place: `beforeEnd`,
-  task: getCard,
+const renderTask = (taskMock) => {
+  const container = document.querySelector(`.board__tasks`);
+  const card = new Card(taskMock);
+  const cardEdit = new CardEdit(taskMock);
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      container.replaceChild(card.getElement(), cardEdit.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  card.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
+    container.replaceChild(cardEdit.getElement(), card.getElement());
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+  cardEdit.getElement().querySelector(`textarea`).addEventListener(`focus`, () => {
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  cardEdit.getElement().querySelector(`textarea`).addEventListener(`blur`, () => {
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+  cardEdit.getElement().querySelector(`.card__save`).addEventListener(`click`, () => {
+    container.replaceChild(card.getElement(), cardEdit.getElement());
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  render(container, card.getElement(), Position.beforeEnd);
 };
 
-const renderCards = (amount) => {
-  const currentContainer = document.querySelector(card.container);
-  for (let i = 0; i < amount; i++) {
-    currentContainer.insertAdjacentHTML(card.place, card.template(card.task()));
-  }
-};
+cards.slice(0, CardsCount.CARDS_ACTIVE).forEach(renderTask);
 
-renderCards(CardsCount.CARDS_ACTIVE);
 
 const buttonLoadMore = document.querySelector(`.load-more`);
-
 
 buttonLoadMore.addEventListener(`click`, () => {
   if (cardBalance > CardsCount.ADD_BY_CLICK) {
     cardBalance -= CardsCount.ADD_BY_CLICK;
-    return renderCards(CardsCount.ADD_BY_CLICK);
+    return cards.slice(0, CardsCount.ADD_BY_CLICK).forEach(renderTask);
   }
   buttonLoadMore.style.display = `none`;
-  return renderCards(cardBalance);
+  return cards.slice(0, cardBalance).forEach(renderTask);
 });
