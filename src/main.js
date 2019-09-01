@@ -68,7 +68,7 @@ const renderAllComponents = () => {
 };
 renderAllComponents();
 
-const renderTask = (taskMock) => {
+const renderCard = (taskMock) => {
   const container = document.querySelector(`.board__tasks`);
   const card = new Card(taskMock);
   const cardEdit = new CardEdit(taskMock);
@@ -101,7 +101,7 @@ const renderTask = (taskMock) => {
   render(container, card.getElement(), Position.beforeEnd);
 };
 
-cards.slice(0, CardsCount.CARDS_ACTIVE).forEach(renderTask);
+cards.slice(0, CardsCount.CARDS_ACTIVE).forEach(renderCard);
 
 
 const buttonLoadMore = document.querySelector(`.load-more`);
@@ -109,8 +109,8 @@ const buttonLoadMore = document.querySelector(`.load-more`);
 buttonLoadMore.addEventListener(`click`, () => {
   if (cardBalance > CardsCount.ADD_BY_CLICK) {
     cardBalance -= CardsCount.ADD_BY_CLICK;
-    return cards.slice(0, CardsCount.ADD_BY_CLICK).forEach(renderTask);
+    return cards.slice(0, CardsCount.ADD_BY_CLICK).forEach(renderCard);
   }
   buttonLoadMore.style.display = `none`;
-  return cards.slice(0, cardBalance).forEach(renderTask);
+  return cards.slice(0, cardBalance).forEach(renderCard);
 });

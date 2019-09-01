@@ -1,15 +1,17 @@
-import {createElement} from './utils';
+import {createElement, unRender} from './utils';
 
 export class Button {
-  constructor() {
-  }
-
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTemplate());
+      this._element = createElement(this.getTemplate().trim());
     }
 
     return this._element;
+  }
+
+  removeElement(element) {
+    this._element = null;
+    unRender(element);
   }
 
   getTemplate() {
