@@ -18,7 +18,7 @@ export const getFilters = (tasks) => {
   filters.forEach((filter) => {
     switch (filter.title) {
       case `All`:
-        filter.count = tasks.length - 1;
+        filter.count = tasks.length;
         break;
 
       case `Overdue`:

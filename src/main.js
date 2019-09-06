@@ -9,6 +9,7 @@ import {Card} from './components/card.js';
 import {Button} from './components/button.js';
 import {getCard} from './data/data-card.js';
 import {getFilters} from './data/data-filter.js';
+import {NoCards} from './components/no-cards.js';
 
 const CardsCount = {
   CARDS_ACTIVE: 5,
@@ -101,10 +102,16 @@ const renderCard = (taskMock) => {
   render(container, card.getElement(), Position.beforeEnd);
 };
 
-cards.slice(0, CardsCount.CARDS_ACTIVE).forEach(renderCard);
-
-
 const buttonLoadMore = document.querySelector(`.load-more`);
+
+if (cards.filter((card) => card.isArchive === false).length === 0) {
+  const noCards = new NoCards();
+  render(document.querySelector(`.board__tasks`), noCards.getElement(), Position.afterBegin);
+  buttonLoadMore.style.display = `none`;
+} else {
+  cards.slice(0, CardsCount.CARDS_ACTIVE).forEach(renderCard);
+}
+
 
 buttonLoadMore.addEventListener(`click`, () => {
   if (cardBalance > CardsCount.ADD_BY_CLICK) {
@@ -114,3 +121,4 @@ buttonLoadMore.addEventListener(`click`, () => {
   buttonLoadMore.style.display = `none`;
   return cards.slice(0, cardBalance).forEach(renderCard);
 });
+
