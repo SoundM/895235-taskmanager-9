@@ -1,17 +1,8 @@
-import {createElement, unRender} from './utils';
+import {AbstractComponent} from './absctract-component.js';
 
-export class NoCards {
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate().trim());
-    }
-
-    return this._element;
-  }
-
-  removeElement(element) {
-    this._element = null;
-    unRender(element);
+export class NoCards extends AbstractComponent {
+  constructor() {
+    super();
   }
 
   getTemplate() {

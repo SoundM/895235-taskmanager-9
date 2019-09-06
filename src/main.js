@@ -1,8 +1,9 @@
 import {Menu} from './components/menu.js';
 import {Search} from './components/search.js';
 import {Filters} from './components/filter.js';
-import {BoardFilter} from './components/board.js';
+import {BoardFilter} from './components/board-filters.js';
 import {BoardContainer} from './components/board-container.js';
+import {BoardCardsList} from "./components/board-cards-list";
 import {render, Position} from './components/utils.js';
 import {CardEdit} from './components/card-edit.js';
 import {Card} from './components/card.js';
@@ -51,6 +52,12 @@ const elements = [
   {
     container: board,
     element: new BoardFilter(),
+    place: `afterBegin`,
+  },
+
+  {
+    container: board,
+    element: new BoardCardsList(),
     place: `afterBegin`,
   },
 
@@ -121,4 +128,3 @@ buttonLoadMore.addEventListener(`click`, () => {
   buttonLoadMore.style.display = `none`;
   return cards.slice(0, cardBalance).forEach(renderCard);
 });
-
