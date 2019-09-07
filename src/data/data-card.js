@@ -1,4 +1,9 @@
 import {getRandomBoolean, getRandomItemFrom, getRandomTags} from './data-utils';
+export const CardsCount = {
+  CARDS_ACTIVE: 5,
+  ADD_BY_CLICK: 2,
+  All: 23,
+};
 
 const description = [
   `Изучить теорию`,

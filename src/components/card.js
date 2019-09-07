@@ -1,26 +1,13 @@
-import {createElement, unRender} from './utils';
+import {AbstractComponent} from './absctract-component.js';
 
-export class Card {
+export class Card extends AbstractComponent {
   constructor({description, dueDate, tags, color, repeatingDays}) {
+    super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
-    this._element = null;
     this._repeatingDays = repeatingDays;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate().trim());
-    }
-
-    return this._element;
-  }
-
-  removeElement(element) {
-    this._element = null;
-    unRender(element);
   }
 
   getTemplate() {
