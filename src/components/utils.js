@@ -1,6 +1,6 @@
 export const Position = {
-  afterBegin: `afterBegin`,
-  beforeEnd: `beforeEnd`,
+  AFTER_BEGIN: `afterBegin`,
+  BEFORE_END: `beforeEnd`,
 };
 
 export const createElement = (template) => {
@@ -11,10 +11,10 @@ export const createElement = (template) => {
 
 export const render = (container, element, place) => {
   switch (place) {
-    case Position.beforeEnd:
+    case Position.BEFORE_END:
       container.append(element);
       break;
-    case Position.afterBegin:
+    case Position.AFTER_BEGIN:
       container.prepend(element);
       break;
   }
