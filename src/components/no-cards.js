@@ -1,9 +1,6 @@
 import {AbstractComponent} from './absctract-component.js';
 
 export class NoCards extends AbstractComponent {
-  constructor() {
-    super();
-  }
 
   getTemplate() {
     return `<section class="board container">

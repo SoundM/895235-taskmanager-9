@@ -1,9 +1,6 @@
 import {AbstractComponent} from './absctract-component.js';
 
 export class BoardFilter extends AbstractComponent {
-  constructor() {
-    super();
-  }
 
   getTemplate() {
     return `<div class="board__filter-list">

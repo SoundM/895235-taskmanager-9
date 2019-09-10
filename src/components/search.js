@@ -1,9 +1,6 @@
 import {AbstractComponent} from './absctract-component.js';
 
 export class Search extends AbstractComponent {
-  constructor() {
-    super();
-  }
 
   getTemplate() {
     return `<section class="main__search search container">
