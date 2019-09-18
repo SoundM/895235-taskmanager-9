@@ -1,12 +1,13 @@
 import {AbstractComponent} from './absctract-component.js';
 
 export class CardEdit extends AbstractComponent {
-  constructor({description, dueDate, tags, color, repeatingDays}) {
+  constructor({description, dueDate, tags, color, colors, repeatingDays}) {
     super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._tags = tags;
     this._color = color;
+    this._colors = colors;
     this._repeatingDays = repeatingDays;
   }
 
@@ -113,18 +114,17 @@ export class CardEdit extends AbstractComponent {
                   <div class="card__colors-inner">
                     <h3 class="card__colors-title">Color</h3>
                     <div class="card__colors-wrap">
-                      ${Array.from(this._color).map((it) => `
-                      <input
+                      ${Array.from(this._colors).map((color) => `<input
                         type="radio"
-                        id="color-${it}-4"
-                        class="card__color-input card__color-input--${it} visually-hidden"
+                        id="color-${color}-4"
+                        class="card__color-input card__color-input--${color} visually-hidden"
                         name="color"
-                        value="${it}"
+                        value="${color}"
                       />
                       <label
-                        for="color-${it}-4"
-                        class="card__color card__color--${it}"
-                        >${it}</label
+                        for="color-${color}-4"
+                        class="card__color card__color--${color}"
+                        >${color}</label
                       >`).join(``)}
                     </div>
                   </div>

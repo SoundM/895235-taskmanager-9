@@ -42,6 +42,9 @@ export const getCard = () => ({
     'su': getRandomBoolean(),
   },
   color: getRandomItemFrom(colors),
+  colors,
   isFavorite: getRandomBoolean(),
   isArchive: getRandomBoolean(),
 });
+
+export const cards = new Array(CardsCount.All).fill(``).map(getCard);

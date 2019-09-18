@@ -1,10 +1,11 @@
+import {BoardContainer} from "../components/board-container";
 import {BoardFilter} from '../components/board-filters.js';
 import {BoardCardsList} from "../components/board-cards-list";
 import {CardEdit} from '../components/card-edit.js';
 import {Card} from '../components/card.js';
 import {Button} from '../components/button.js';
 import {NoCards} from '../components/no-cards.js';
-import {render, Position} from '../components/utils.js';
+import {render, Position, unRender} from '../components/utils.js';
 import {CardsCount} from '../data/data-card.js';
 
 let cardBalance = CardsCount.All - CardsCount.CARDS_ACTIVE;
@@ -14,6 +15,7 @@ export class BoardController {
   constructor(container, cards) {
     this._container = container;
     this._cards = cards;
+    this._boardContainer = new BoardContainer();
     this._boardFilter = new BoardFilter();
     this._boardCardList = new BoardCardsList();
     this._button = new Button();
@@ -51,6 +53,14 @@ export class BoardController {
       .addEventListener(`click`, (evt) => this._onBoardFilterClick(evt));
   }
 
+  _renderBoard(cards) {
+    unRender(this._taskList.getElement());
+
+    this._boardCardList.removeElement();
+    render(this._boardContainer.getElement(), this._boardCardList.getElement(), Position.BEFOREEND);
+    cards.forEach((tasks) => this._renderCard(tasks));
+  }
+
   _renderCard(taskMock) {
     const container = document.querySelector(`.board__tasks`);
     const card = new Card(taskMock);
@@ -76,9 +86,35 @@ export class BoardController {
       document.addEventListener(`keydown`, onEscKeyDown);
     });
 
-    cardEdit.getElement().querySelector(`.card__save`).addEventListener(`click`, () => {
-      container.replaceChild(card.getElement(), cardEdit.getElement());
+    cardEdit.getElement().querySelector(`.card__save`).addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      // container.replaceChild(card.getElement(), cardEdit.getElement());
+
+      const formData = new FormData(cardEdit.getElement().querySelector(`.card__form`));
+
+      const entry = {
+        description: formData.get(`text`),
+        color: formData.get(`color`),
+        tags: new Set(formData.getAll(`hashtag`)),
+        dueDate: new Date(formData.get(`date`)),
+        repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
+          acc[it] = true;
+          return acc;
+        }, {
+          'mo': false,
+          'tu': false,
+          'we': false,
+          'th': false,
+          'fr': false,
+          'sa': false,
+          'su': false,
+        })
+      };
+
+      this._cards[this._cards.findIndex((it) => it === taskMock)] = entry;
       document.removeEventListener(`keydown`, onEscKeyDown);
+
+      this._renderBoard(this._cards);
     });
 
     render(container, card.getElement(), Position.BEFORE_END);
